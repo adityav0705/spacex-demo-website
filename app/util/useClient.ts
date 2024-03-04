@@ -16,7 +16,8 @@ const useClient = (): ApolloClient<NormalizedCacheObject> => {
   });
 
   const httpLink = createHttpLink({
-    uri: "https://spacex-production.up.railway.app/api/graphql",
+    // uri: 'https://spacex-production.up.railway.app/api/graphql',
+    uri: "http://localhost:3000",
   });
 
   const client = new ApolloClient({
