@@ -1,25 +1,26 @@
 "use client";
 
 import apiCalls from "@/graphql";
-import { ShipsQuery } from "@/util/types/graphql";
 import { useQuery } from "@apollo/client";
+import Image from "next/image";
+import SpaceCardGrid from "./components/SpaceCardGrid";
+import { cacheAndNetwork } from "./constants/fetchPolicy";
+import { ShipsQuery, Ship } from "@/util/types/graphql";
 
 export default function Home() {
   const { data } = useQuery<ShipsQuery>(apiCalls.queries.ships, {
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: cacheAndNetwork,
   });
 
+  if (!data) return null;
+
   return (
-    <main className="flex justify-center min-h-screen p-14">
-      <div className="w-full max-w-7xl justify-between flex flex-col gap-2">
-        {data?.ships?.map((ship, index) => {
-          return (
-            <div key={index} className="flex px-4">
-              {ship?.name}
-            </div>
-          );
-        })}
+    <main className="min-h-screen p-4 md:p-14">
+      <div className="flex gap-8 pb-6">
+        <Image width={50} height={50} src="/spaceShip.png" alt="space ship" />
+        <p className="text-4xl">Ships</p>
       </div>
+      <SpaceCardGrid ships={data.ships as Ship[]} />
     </main>
   );
 }
